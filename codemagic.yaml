@@ -6,8 +6,7 @@ workflows:
       vars:
         BUNDLE_ID: "com.rn.test"
       node: 16
-      xcode: latest
-      android: true
+      xcode: latest  # Needed for iOS build
       cocoapods: default
     scripts:
       - name: Install dependencies
