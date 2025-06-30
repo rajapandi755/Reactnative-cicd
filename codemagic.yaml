@@ -1,0 +1,30 @@
+workflows:
+  react-native-workflow:
+    name: React Native CI/CD
+    max_build_duration: 60
+    environment:
+      vars:
+        BUNDLE_ID: "com.rn.test"
+      node: 16
+      xcode: latest
+      android: true
+      cocoapods: default
+    scripts:
+      - name: Install dependencies
+        script: |
+          npm install
+          cd ios && pod install && cd ..
+      - name: Build Android
+        script: |
+          cd android
+          ./gradlew assembleRelease
+      - name: Build iOS
+        script: |
+          xcodebuild -workspace ios/YourApp.xcworkspace -scheme YourApp -sdk iphoneos -configuration Release archive -archivePath $CM_BUILD_DIR/YourApp.xcarchive
+    artifacts:
+      - android/app/build/outputs/**/*.apk
+      - build/ios/ipa/*.ipa
+    publishing:
+      email:
+        recipients:
+          - your@email.com
